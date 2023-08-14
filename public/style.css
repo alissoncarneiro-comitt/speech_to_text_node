@@ -1,0 +1,66 @@
+.logo{
+    position: absolute;
+    height: 60px;
+    top: 4px;
+}
+.pHeader{
+    padding: 14px 0;
+    background-color: #FF7200;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: space-between;
+    align-items: stretch;
+}
+.iconUserCicle{
+    background-color: #f2f2f2;
+    width: 40px;
+    text-align: center;
+    border-radius: 30px;
+    position: relative;
+    height: 40px;}
+.iconUser{
+    color: #8f9194;
+    padding: 10px 0;
+}
+.dataUser{
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 12px;
+}
+.dataUser p{
+    line-height: 0;
+}
+.dataUser span{
+    color: #FFD340;
+}
+.dataAccount{
+    float: left;
+    padding: 0 4px 0 0 ;
+}
+.iconSair{
+    font-size: 30px;
+    text-align: center;
+    padding: 4px 0;
+    color: #fff;
+}
+.menuSidebar svg{
+    color: #FF7200;
+    padding: 0 6px 0 0;
+}
+#recordingPopup {
+
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: none;
+    width: 10%;
+    text-align: center;
+    z-index: 99;
+}
