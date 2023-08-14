@@ -14,5 +14,5 @@ app.use(function(err,req,res,next){
 });
 
 app.listen(process.env.PORT || 4000, function(){
-    console.log('Ready to Go!');
+    console.log('Ready to Go!, http://localhost:4000');
 });
