@@ -10,7 +10,7 @@ function findDateToSpeech(data) {
         const quantityText = match[1];
         const number = describerTextToNumber(quantityText);
         const days = match[2] === 'dia' ? number : number * 2; // Assuming "dias" is plural
-        return makeDateByNumber(days)
+        return days
     }else{
         return defaultDate
     }
@@ -37,8 +37,6 @@ function parseDate(date) {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
 
-    console.log("day", day)
-
     return `${year}-${month}-${day}`;
 }
 function convertRecord(data) {
@@ -59,14 +57,35 @@ function transactionFind(findText) {
         termFindOut = findText
     }
 
-   /* console.log("transactionFind", termFindOut)*/
-
     const transaction = [
+        {
+            "icon": "<i class=\"fa-brands fa-pix\"></i>",
+            "data": "2023-08-14",
+            "descricao": "PIX Enviado para Daniela",
+            "valor": -200.0
+        },
+        {
+            "icon": "<i class=\"fa-brands fa-pix\"></i>",
+            "data": "2023-08-14",
+            "descricao": "PIX Recebido para Rodolfo",
+            "valor": 100.0
+        },{
+            "icon": "<i class=\"fa-brands fa-pix\"></i>",
+            "data": "2023-08-13",
+            "descricao": "PIX Recebido para Lucas",
+            "valor": 10.0
+        },
+        {
+            "icon": "<i class=\"fa-brands fa-pix\"></i>",
+            "data": "2023-08-13",
+            "descricao": "PIX Enviado para lEONARDO",
+            "valor": -50.0
+        },
         {
             "icon": "<i class=\"fa-brands fa-pix\"></i>",
             "data": "2023-08-12",
             "descricao": "PIX Enviado para Neto",
-            "valor": 50.0
+            "valor": -50.0
         },
         {
             "icon": "<i class=\"fa-brands fa-pix\"></i>",
@@ -211,7 +230,6 @@ function transactionFind(findText) {
         console.log("findDate ", findDate)*/
 
         if (entryDate >=  findDate) {
-            /*console.log("dentro da condição")*/
             tempResultTransaction.icon      = entry.icon;
             tempResultTransaction.data      = entry.data;
             tempResultTransaction.descricao = entry.descricao;
@@ -232,7 +250,8 @@ router.get("/", (req, res) => {
 router.post("/recording",  (req, res) => {
     const textSpeech = req.body.name;
     const response = convertRecord(textSpeech)
-    res.send({ term: response })
+    const responseFind = transactionFind(response);
+    res.send({ transactions: responseFind })
 });
 
 router.get("/transactions", (req, res) => {

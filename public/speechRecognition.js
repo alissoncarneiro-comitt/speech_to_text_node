@@ -14,16 +14,44 @@ function SpeechRecognition(){
 document.addEventListener('DOMContentLoaded',  function(event) {
     const searchInput = document.getElementById('searchInput');
     const microphoneBtn = document.getElementById('microphoneBtn');
-    const recordingPopup = document.getElementById('recordingPopup');
+
     microphoneBtn.addEventListener('click',  function () {
-       SpeechRecognition();
+        recordingPopup.style.display = 'block';
+        SpeechRecognition();
+
     });
 });
 
 document.addEventListener("DOMContentLoaded", function(event) {
     let days = 30;
+    const recordingPopup = document.getElementById('recordingPopup');
+
     getTransactions(days);
 });
+
+function buildResult(resultTransactions){
+    recordingPopup.style.display = 'none';
+
+    const transactionTableBody = document.querySelector('#transcriptionTable tbody');
+    transactionTableBody.innerHTML = '';
+    resultTransactions.forEach(entry => {
+        const row = document.createElement('tr');
+        const dateIcon = document.createElement('td');
+        const dateCell = document.createElement('td');
+        const descriptionCell = document.createElement('td');
+        const valueCell = document.createElement('td');
+        dateIcon.innerHTML = entry.icon;
+        dateCell.textContent = entry.data;
+        descriptionCell.textContent = entry.descricao;
+        valueCell.textContent = entry.valor.toFixed(2);
+
+        row.appendChild(dateIcon);
+        row.appendChild(dateCell);
+        row.appendChild(descriptionCell);
+        row.appendChild(valueCell);
+        transactionTableBody.appendChild(row);
+    });
+}
 
 async function getTransactions(term){
         const response = await fetch("/transactions?" + new URLSearchParams({
@@ -31,30 +59,8 @@ async function getTransactions(term){
         }), {
             method: "GET"
         })
-
         const resultTransactions = await response.json();
-        console.log("resultTransactions ",resultTransactions.transactions)
-
-        const transactionTableBody = document.querySelector('#transcriptionTable tbody');
-        transactionTableBody.innerHTML = '';
-        resultTransactions.transactions.forEach(entry => {
-            const row = document.createElement('tr');
-            const dateIcon = document.createElement('td');
-            const dateCell = document.createElement('td');
-            const descriptionCell = document.createElement('td');
-            const valueCell = document.createElement('td');
-            dateIcon.innerHTML = entry.icon;
-            dateCell.textContent = entry.data;
-            descriptionCell.textContent = entry.descricao;
-            valueCell.textContent = entry.valor.toFixed(2);
-
-            row.appendChild(dateIcon);
-            row.appendChild(dateCell);
-            row.appendChild(descriptionCell);
-            row.appendChild(valueCell);
-            transactionTableBody.appendChild(row);
-        });
-
+        buildResult(resultTransactions.transactions)
 }
 
 async function postRecording(data) {
@@ -68,8 +74,8 @@ async function postRecording(data) {
     }
     try {
         const response = await fetch("/recording", config)
-        const result = await response.json();
-        console.log("Success:", result);
+        const resultTransactions = await response.json();
+        buildResult(resultTransactions.transactions)
     } catch (error) {
         console.error("Error:", error);
     }
