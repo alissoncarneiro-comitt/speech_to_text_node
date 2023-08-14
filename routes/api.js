@@ -49,13 +49,8 @@ function convertRecord(data) {
 }
 
 function transactionFind(findText) {
-    const pattern = /^[0-9]$/;
-    let termFindOut = '';
-    if(!pattern.test(findText)){
-        termFindOut = makeDateByNumber(findText)
-    }else{
-        termFindOut = findText
-    }
+    let termFindOut = makeDateByNumber(findText)
+
 
     const transaction = [
         {
